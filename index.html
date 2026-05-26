@@ -11,10 +11,10 @@
 
   :root {
     --bg: #0f1114;
-    --surface: #16131e;
-    --surface-hover: #1e1a2e;
-    --border: rgba(155, 139, 218, 0.12);
-    --border-hover: rgba(155, 139, 218, 0.28);
+    --surface: #32295b;
+    --surface-hover: #4a2bd4;
+    --border: rgba(155, 139, 218, 0.32);
+    --border-hover: rgba(240, 239, 243, 0.35);
     --accent: #4a2bd4;
     --accent-soft: #9b8bda;
     --text: #f0eff3;
@@ -29,7 +29,7 @@
 
   nav { width: var(--nav-w); min-width: var(--nav-w); position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; border-right: 1px solid var(--border); padding: 2rem 0; overflow-y: auto; }
   .nav-logo { padding: 0 1.5rem 2rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
-  .nav-logo img { height: 40px; display: block; }
+  .nav-logo img { height: 30px; display: block; }
   .nav-brand { font-weight: 700; font-size: 15px; letter-spacing: -0.02em; color: var(--text); }
   .nav-wordmark { font-weight: 700; font-size: 16px; letter-spacing: -0.02em; display: none; }
   .nav-label { font-size: 10px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); padding: 0 1.5rem 0.6rem; }
@@ -39,10 +39,10 @@
   nav a.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 2px; height: 60%; background: var(--accent-soft); border-radius: 2px; }
   nav a svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.6; }
   .nav-spacer { margin-top: auto; padding: 1.5rem; border-top: 1px solid var(--border); }
-  .nav-social { display: flex; flex-direction: column; gap: 0.5rem; }
-  .nav-social-link { display: flex; align-items: center; gap: 8px; color: var(--text-dim); text-decoration: none; font-size: 11px; font-family: 'JetBrains Mono', monospace; transition: color 0.15s; }
-  .nav-social-link:hover { color: var(--text-muted); }
-  .nav-social-icon { width: 13px; height: 13px; opacity: 0.5; filter: brightness(0) invert(1); flex-shrink: 0; }
+  .nav-social { display: flex; flex-direction: row; gap: 0.6rem; justify-content: center; }
+  .nav-social-link { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: var(--radius-sm); color: var(--text-dim); text-decoration: none; transition: color 0.15s, background 0.15s; }
+  .nav-social-link:hover { color: var(--text); background: var(--surface); }
+  .nav-social-icon { width: 14px; height: 14px; opacity: 0.75; filter: brightness(0) invert(1); flex-shrink: 0; }
 
   main { flex: 1; padding: 3rem 3.5rem; max-width: 1100px; overflow-x: hidden; }
   .page-header { margin-bottom: 4rem; padding-bottom: 2rem; }
@@ -70,8 +70,8 @@
   .asset-grid.logos { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
   .asset-card { cursor: pointer; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem 1rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; transition: border-color 0.15s, background 0.15s, transform 0.15s; position: relative; overflow: hidden; min-height: 120px; }
   .asset-card:hover { border-color: var(--border-hover); background: var(--surface-hover); transform: translateY(-2px); }
-  .asset-card.dark-bg { background: #1e1b30; }
-  .asset-card.dark-bg:hover { background: #26224a; }
+  .asset-card.dark-bg { background: #32295b; }
+  .asset-card.dark-bg:hover { background: #4a2bd4; }
   .asset-card img { max-width: 100%; max-height: 60px; object-fit: contain; display: block; }
   .copy-hint { position: absolute; inset: 0; background: rgba(74,43,212,0.08); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; color: var(--accent-soft); }
   .asset-card:hover .copy-hint { opacity: 1; }
@@ -84,8 +84,8 @@
   .partner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
   .partner-card { cursor: pointer; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.25rem 1rem; display: flex; flex-direction: column; align-items: center; transition: border-color 0.15s, background 0.15s, transform 0.15s; position: relative; overflow: hidden; min-height: 140px; }
   .partner-card:hover { border-color: var(--border-hover); background: var(--surface-hover); transform: translateY(-2px); }
-  .partner-card.dark-bg { background: #1e1b30; }
-  .partner-card.dark-bg:hover { background: #26224a; }
+  .partner-card.dark-bg { background: #32295b; }
+  .partner-card.dark-bg:hover { background: #4a2bd4; }
   .partner-img-wrap { flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; }
   .partner-card img { max-width: 100%; max-height: 48px; object-fit: contain; display: block; }
 
@@ -237,7 +237,7 @@ function buildNav() {
   const nav = document.getElementById('sidebar');
   nav.innerHTML = `
     <div class="nav-logo">
-      <img src="${BASE_URL}/branding/logo/mrp-icon.png" alt="MrPrinteto"
+      <img src="https://assets.mrprinteto.com/branding/logo/mrp-text-white.png" alt="MrPrinteto"
            onerror="this.style.display='none'; document.querySelector('.nav-wordmark').style.display='block'">
       <span class="nav-wordmark">MrPrinteto</span>
       <span class="nav-brand">Brand</span>
@@ -250,21 +250,17 @@ function buildNav() {
       </a>`).join('')}
     <div class="nav-spacer">
       <div class="nav-social">
-        <a href="https://instagram.com/mrprinteto" target="_blank" class="nav-social-link">
+        <a href="https://instagram.com/mrprinteto" target="_blank" rel="noreferrer noopener" class="nav-social-link" aria-label="Instagram" title="Instagram">
           <img src="${BASE_URL}/branding/icons/social/instagram.svg" alt="Instagram" class="nav-social-icon">
-          @mrprinteto
         </a>
-        <a href="https://tiktok.com/@mrprinteto" target="_blank" class="nav-social-link">
+        <a href="https://tiktok.com/@mrprinteto" target="_blank" rel="noreferrer noopener" class="nav-social-link" aria-label="TikTok" title="TikTok">
           <img src="${BASE_URL}/branding/icons/social/tiktok.svg" alt="TikTok" class="nav-social-icon">
-          @mrprinteto
         </a>
-        <a href="https://youtube.com/@mrprinteto" target="_blank" class="nav-social-link">
+        <a href="https://youtube.com/@mrprinteto" target="_blank" rel="noreferrer noopener" class="nav-social-link" aria-label="YouTube" title="YouTube">
           <img src="${BASE_URL}/branding/icons/social/youtube.svg" alt="YouTube" class="nav-social-icon">
-          @mrprinteto
         </a>
-        <a href="https://threads.net/@mrprinteto" target="_blank" class="nav-social-link">
+        <a href="https://threads.net/@mrprinteto" target="_blank" rel="noreferrer noopener" class="nav-social-link" aria-label="Threads" title="Threads">
           <img src="${BASE_URL}/branding/icons/social/threads.svg" alt="Threads" class="nav-social-icon">
-          @mrprinteto
         </a>
       </div>
     </div>`;
