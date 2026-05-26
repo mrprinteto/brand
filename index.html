@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MrPrinteto — Brand Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f1114;
+    --surface: #16131e;
+    --surface-hover: #1e1a2e;
+    --border: rgba(155, 139, 218, 0.12);
+    --border-hover: rgba(155, 139, 218, 0.28);
+    --accent: #4a2bd4;
+    --accent-soft: #9b8bda;
+    --text: #f0eff3;
+    --text-muted: rgba(240, 239, 243, 0.45);
+    --text-dim: rgba(240, 239, 243, 0.22);
+    --nav-w: 220px;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; font-size: 15px; line-height: 1.6; display: flex; min-height: 100vh; }
+
+  nav { width: var(--nav-w); min-width: var(--nav-w); position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; border-right: 1px solid var(--border); padding: 2rem 0; overflow-y: auto; }
+  .nav-logo { padding: 0 1.5rem 2rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
+  .nav-logo img { height: 28px; display: block; }
+  .nav-wordmark { font-weight: 700; font-size: 16px; letter-spacing: -0.02em; display: none; }
+  .nav-label { font-size: 10px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); padding: 0 1.5rem 0.6rem; }
+  nav a { display: flex; align-items: center; gap: 10px; padding: 0.55rem 1.5rem; color: var(--text-muted); text-decoration: none; font-size: 13.5px; font-weight: 500; transition: color 0.15s, background 0.15s; position: relative; }
+  nav a:hover { color: var(--text); background: var(--surface); }
+  nav a.active { color: var(--text); background: var(--surface); }
+  nav a.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 2px; height: 60%; background: var(--accent-soft); border-radius: 2px; }
+  nav a svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.6; }
+  .nav-spacer { margin-top: auto; padding: 1.5rem; border-top: 1px solid var(--border); font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-dim); }
+
+  main { flex: 1; padding: 3rem 3.5rem; max-width: 1100px; overflow-x: hidden; }
+  .page-header { margin-bottom: 4rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .page-header h1 { font-size: 13px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-soft); margin-bottom: 0.5rem; }
+  .page-header p { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
+  .page-header span { color: var(--text-muted); }
+
+  section { margin-bottom: 5rem; scroll-margin-top: 2rem; }
+  section h2 { font-size: 11px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; }
+  section h2::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  section h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.015em; margin-bottom: 1.5rem; }
+  .subsection { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--accent-soft); margin: 2rem 0 0.75rem; opacity: 0.7; letter-spacing: 0.06em; }
+
+  .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+  .color-card { cursor: pointer; border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; transition: border-color 0.15s, transform 0.15s; }
+  .color-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+  .color-swatch { height: 100px; width: 100%; }
+  .color-info { padding: 0.75rem 1rem; background: var(--surface); }
+  .color-name { font-size: 11.5px; font-weight: 600; margin-bottom: 2px; }
+  .color-hex { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); }
+
+  .asset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+  .asset-grid.logos { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .asset-card { cursor: pointer; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem 1rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; transition: border-color 0.15s, background 0.15s, transform 0.15s; position: relative; overflow: hidden; min-height: 120px; }
+  .asset-card:hover { border-color: var(--border-hover); background: var(--surface-hover); transform: translateY(-2px); }
+  .asset-card.dark-bg { background: #1e1b30; }
+  .asset-card.dark-bg:hover { background: #26224a; }
+  .asset-card img { max-width: 100%; max-height: 60px; object-fit: contain; display: block; }
+  .copy-hint { position: absolute; inset: 0; background: rgba(74,43,212,0.08); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--accent-soft); letter-spacing: 0.08em; }
+  .asset-card:hover .copy-hint { opacity: 1; }
+
+  .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; }
+  .icon-card { cursor: pointer; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem 0.5rem 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; transition: border-color 0.15s, background 0.15s, transform 0.15s; position: relative; overflow: hidden; }
+  .icon-card:hover { border-color: var(--border-hover); background: var(--surface-hover); transform: translateY(-2px); }
+  .icon-card img { width: 32px; height: 32px; object-fit: contain; display: block; }
+
+  .partner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+  .partner-card { cursor: pointer; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem 1.25rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; transition: border-color 0.15s, background 0.15s, transform 0.15s; position: relative; overflow: hidden; min-height: 100px; }
+  .partner-card:hover { border-color: var(--border-hover); background: var(--surface-hover); transform: translateY(-2px); }
+  .partner-card.dark-bg { background: #1e1b30; }
+  .partner-card.dark-bg:hover { background: #26224a; }
+  .partner-card img { max-width: 100%; max-height: 40px; object-fit: contain; display: block; }
+
+  .copy-hint-sm { position: absolute; inset: 0; background: rgba(74,43,212,0.08); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--accent-soft); letter-spacing: 0.08em; }
+  .icon-card:hover .copy-hint-sm, .partner-card:hover .copy-hint-sm { opacity: 1; }
+
+  .asset-label { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); text-align: center; word-break: break-all; line-height: 1.4; }
+  .icon-card .asset-label, .partner-card .asset-label { font-size: 10px; }
+
+  .guidelines-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .guideline-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; }
+  .guideline-card.do { border-left: 2px solid #3dbd78; }
+  .guideline-card.dont { border-left: 2px solid #e05252; }
+  .guideline-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 0.4rem; color: var(--accent-soft); }
+  .guideline-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  #toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--accent); color: white; padding: 0.7rem 1.25rem; border-radius: var(--radius-sm); font-size: 13px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em; transform: translateY(6px); opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none; z-index: 999; }
+  #toast.show { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) { nav { display: none; } main { padding: 2rem 1.5rem; } .guidelines-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<nav id="sidebar"></nav>
+<main id="main"></main>
+<div id="toast"></div>
+
+<script>
+// ─────────────────────────────────────────────
+//  DATOS DE MARCA — edita aquí para añadir
+//  o quitar assets sin tocar el resto del código
+// ─────────────────────────────────────────────
+
+const BASE_URL = 'https://assets.mrprinteto.com';
+
+const BRAND = {
+
+  colors: [
+    { name: 'Deep Purple', hex: '#32295b' },
+    { name: 'Lavender',    hex: '#9b8bda' },
+    { name: 'Electric',    hex: '#4a2bd4' },
+    { name: 'Off White',   hex: '#f0eff3' },
+    { name: 'Ink',         hex: '#0f1114' },
+  ],
+
+  logos: [
+    // dark: true → fondo oscuro (para versiones negativas/blancas)
+    { path: '/branding/logo/mrp-logo.png',          label: 'mrp-logo.png' },
+    { path: '/branding/logo/mrp-logo-negative.png', label: 'mrp-logo-negative.png', dark: true },
+    { path: '/branding/logo/mrp-text.png',          label: 'mrp-text.png' },
+    { path: '/branding/logo/mrp-text-white.png',    label: 'mrp-text-white.png',    dark: true },
+    { path: '/branding/logo/mrp-icon.png',          label: 'mrp-icon.png' },
+    { path: '/branding/logo/mrp-icon-negative.png', label: 'mrp-icon-negative.png', dark: true },
+    { path: '/branding/logo/mrp-icon-vector.svg',   label: 'mrp-icon-vector.svg' },
+  ],
+
+  icons: {
+    social: [
+      { path: '/branding/icons/social/email.svg',     label: 'email' },
+      { path: '/branding/icons/social/facebook.svg',  label: 'facebook' },
+      { path: '/branding/icons/social/instagram.svg', label: 'instagram' },
+      { path: '/branding/icons/social/threads.svg',   label: 'threads' },
+      { path: '/branding/icons/social/tiktok.svg',    label: 'tiktok' },
+      { path: '/branding/icons/social/twitch.svg',    label: 'twitch' },
+      { path: '/branding/icons/social/whatsapp.svg',  label: 'whatsapp' },
+      { path: '/branding/icons/social/x.svg',         label: 'x (twitter)' },
+      { path: '/branding/icons/social/youtube.svg',   label: 'youtube' },
+    ],
+    tech: [
+      { path: '/branding/icons/tech/astro.svg',      label: 'astro' },
+      { path: '/branding/icons/tech/aws.svg',        label: 'aws' },
+      { path: '/branding/icons/tech/cloudflare.svg', label: 'cloudflare' },
+      { path: '/branding/icons/tech/gmail.svg',      label: 'gmail' },
+      { path: '/branding/icons/tech/n8n.svg',        label: 'n8n' },
+    ],
+  },
+
+  illustrations: [
+    { path: '/branding/illustrations/BMW.png',           label: 'BMW.png' },
+    { path: '/branding/illustrations/BMW_squared.png',   label: 'BMW_squared.png' },
+    { path: '/branding/illustrations/asterisk.png',      label: 'asterisk.png' },
+    { path: '/branding/illustrations/barcode.png',       label: 'barcode.png' },
+    { path: '/branding/illustrations/diagonals.png',     label: 'diagonals.png' },
+    { path: '/branding/illustrations/vertical_lines.png',label: 'vertical_lines.png' },
+  ],
+
+  partners: [
+    { path: '/brands/elegoo/elegoo-logo.avif',                label: 'elegoo' },
+    { path: '/brands/elegoo/elegoo-logo-negative.avif',       label: 'elegoo · neg',        dark: true },
+    { path: '/brands/creality/creality-logo.svg',             label: 'creality' },
+    { path: '/brands/creality/creality-logo.png',             label: 'creality · png' },
+    { path: '/brands/snapmaker/snapmaker-logo.webp',          label: 'snapmaker' },
+    { path: '/brands/sakata3d/logo.jpg',                      label: 'sakata3d' },
+    { path: '/brands/creality-falcon/creality-falcon-logo.webp', label: 'creality falcon' },
+    { path: '/brands/laserpecker/laserpecker-logo-negative.avif', label: 'laserpecker · neg', dark: true },
+    { path: '/brands/laserpecker/laserpecker-logo.webp',      label: 'laserpecker' },
+    { path: '/brands/wecreat/wecreat-logo.avif',              label: 'wecreat' },
+    { path: '/brands/wecreat/wecreat-logo-negative.webp',     label: 'wecreat · neg',       dark: true },
+    { path: '/brands/anycubic/anycubic-logo.webp',            label: 'anycubic' },
+    { path: '/brands/anycubic/anycubic-logo-square.png',      label: 'anycubic · sq' },
+    { path: '/brands/bambulab/bambulab-logo-negative.svg',    label: 'bambulab · neg',      dark: true },
+    { path: '/brands/bambulab/bambulab-logo.webp',            label: 'bambulab' },
+    { path: '/brands/flashforge/flashforge-logo.avif',        label: 'flashforge' },
+    { path: '/brands/flashforge/flashforge-logo-negative.webp', label: 'flashforge · neg',  dark: true },
+  ],
+
+  guidelines: [
+    { type: 'do',   title: '✓ Usar',         text: 'Versión negativa del logo sobre fondos oscuros o con color de la marca.' },
+    { type: 'dont', title: '✗ No usar',      text: 'Modificar colores del logo ni añadir sombras, contornos o efectos externos.' },
+    { type: 'do',   title: '✓ Tipografía',   text: 'Mantener jerarquía visual usando la paleta de colores de marca como apoyo tipográfico.' },
+    { type: 'dont', title: '✗ Escala mínima',text: 'No usar el icono por debajo de 24px ni el logo horizontal por debajo de 120px de ancho.' },
+    { type: 'do',   title: '✓ Espacio libre',text: 'Respetar un área de respeto equivalente a la altura de la "M" del logo en todos sus lados.' },
+    { type: 'dont', title: '✗ Fondos',       text: 'No colocar el logo positivo sobre fotografías sin contraste suficiente o fondos pautados.' },
+  ],
+};
+
+// ─────────────────────────────────────────────
+//  Renderizado — no es necesario editar debajo
+// ─────────────────────────────────────────────
+
+let toastTimer;
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function copyText(text, msg) {
+  navigator.clipboard.writeText(text).then(() => showToast(msg || 'Copiado'));
+}
+
+function copyUrl(path) {
+  navigator.clipboard.writeText(BASE_URL + path).then(() => showToast('URL copiada'));
+}
+
+const NAV_ITEMS = [
+  { id: 'colors',        label: 'Colores',      icon: '<circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/>' },
+  { id: 'logos',         label: 'Logos',        icon: '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M8 6v12"/>' },
+  { id: 'icons',         label: 'Icons',        icon: '<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>' },
+  { id: 'illustrations', label: 'Illustrations',icon: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="m3 16 5-5 4 4 3-3 6 6"/>' },
+  { id: 'partners',      label: 'Partners',     icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+  { id: 'guidelines',    label: 'Guidelines',   icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>' },
+];
+
+function buildNav() {
+  const nav = document.getElementById('sidebar');
+  nav.innerHTML = `
+    <div class="nav-logo">
+      <img src="${BASE_URL}/branding/logo/mrp-text-white.png" alt="MrPrinteto"
+           onerror="this.style.display='none'; document.querySelector('.nav-wordmark').style.display='block'">
+      <span class="nav-wordmark">MrPrinteto</span>
+    </div>
+    <span class="nav-label">Brand Kit</span>
+    ${NAV_ITEMS.map(i => `
+      <a href="#${i.id}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">${i.icon}</svg>
+        ${i.label}
+      </a>`).join('')}
+    <div class="nav-spacer">assets.mrprinteto.com</div>`;
+}
+
+function card(html, cls, onclick) {
+  return `<div class="${cls}" onclick="${onclick}">${html}</div>`;
+}
+
+function assetImg(path, alt, style = '') {
+  return `<img src="${BASE_URL}${path}" alt="${alt}" ${style ? `style="${style}"` : ''} loading="lazy">`;
+}
+
+function buildMain() {
+  let sectionIdx = 1;
+
+  // Colors
+  const colorCards = BRAND.colors.map(c => {
+    const border = c.hex === '#f0eff3' ? 'border-bottom:1px solid rgba(0,0,0,0.1)' : '';
+    return `<div class="color-card" onclick="copyText('${c.hex}', 'Color copiado')">
+      <div class="color-swatch" style="background:${c.hex};${border}"></div>
+      <div class="color-info">
+        <div class="color-name">${c.name}</div>
+        <div class="color-hex">${c.hex}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Logos
+  const logoCards = BRAND.logos.map(a => `
+    <div class="asset-card${a.dark ? ' dark-bg' : ''}" onclick="copyUrl('${a.path}')">
+      ${assetImg(a.path, a.label)}
+      <div class="asset-label">${a.label}</div>
+      <div class="copy-hint">↗ copiar URL</div>
+    </div>`).join('');
+
+  // Icons — social + tech
+  function iconCards(list) {
+    return list.map(a => `
+      <div class="icon-card" onclick="copyUrl('${a.path}')">
+        ${assetImg(a.path, a.label)}
+        <div class="asset-label">${a.label}</div>
+        <div class="copy-hint-sm">copiar</div>
+      </div>`).join('');
+  }
+
+  // Illustrations
+  const illustrationCards = BRAND.illustrations.map(a => `
+    <div class="asset-card${a.dark ? ' dark-bg' : ''}" onclick="copyUrl('${a.path}')">
+      ${assetImg(a.path, a.label)}
+      <div class="asset-label">${a.label}</div>
+      <div class="copy-hint">↗ copiar URL</div>
+    </div>`).join('');
+
+  // Partners
+  const partnerCards = BRAND.partners.map(a => `
+    <div class="partner-card${a.dark ? ' dark-bg' : ''}" onclick="copyUrl('${a.path}')">
+      ${assetImg(a.path, a.label)}
+      <div class="asset-label">${a.label}</div>
+      <div class="copy-hint-sm">copiar</div>
+    </div>`).join('');
+
+  // Guidelines
+  const guidelineCards = BRAND.guidelines.map(g => `
+    <div class="guideline-card ${g.type}">
+      <h4>${g.title}</h4>
+      <p>${g.text}</p>
+    </div>`).join('');
+
+  document.getElementById('main').innerHTML = `
+    <header class="page-header">
+      <h1>mrprinteto / brand-kit</h1>
+      <p>Recursos de marca.<br><span>Haz clic para copiar.</span></p>
+    </header>
+
+    <section id="colors">
+      <h2>0${sectionIdx++}</h2>
+      <h3>Colores</h3>
+      <div class="color-grid">${colorCards}</div>
+    </section>
+
+    <section id="logos">
+      <h2>0${sectionIdx++}</h2>
+      <h3>Logos</h3>
+      <div class="asset-grid logos">${logoCards}</div>
+    </section>
+
+    <section id="icons">
+      <h2>0${sectionIdx++}</h2>
+      <h3>Icons</h3>
+      <p class="subsection">Social</p>
+      <div class="icon-grid">${iconCards(BRAND.icons.social)}</div>
+      <p class="subsection">Tech</p>
+      <div class="icon-grid">${iconCards(BRAND.icons.tech)}</div>
+    </section>
+
+    <section id="illustrations">
+      <h2>0${sectionIdx++}</h2>
+      <h3>Illustrations</h3>
+      <div class="asset-grid">${illustrationCards}</div>
+    </section>
+
+    <section id="partners">
+      <h2>0${sectionIdx++}</h2>
+      <h3>Partners & Asociados</h3>
+      <div class="partner-grid">${partnerCards}</div>
+    </section>
+
+    <section id="guidelines">
+      <h2>0${sectionIdx++}</h2>
+      <h3>Guidelines</h3>
+      <div class="guidelines-grid">${guidelineCards}</div>
+    </section>`;
+}
+
+function initScrollSpy() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        document.querySelectorAll('nav a').forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+}
+
+buildNav();
+buildMain();
+initScrollSpy();
+</script>
+</body>
+</html>
