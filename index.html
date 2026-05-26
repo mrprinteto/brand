@@ -28,8 +28,9 @@
   body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; font-size: 15px; line-height: 1.6; display: flex; min-height: 100vh; }
 
   nav { width: var(--nav-w); min-width: var(--nav-w); position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; border-right: 1px solid var(--border); padding: 2rem 0; overflow-y: auto; }
-  .nav-logo { padding: 0 1.5rem 2rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
-  .nav-logo img { height: 28px; display: block; }
+  .nav-logo { padding: 0 1.5rem 2rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
+  .nav-logo img { height: 40px; display: block; }
+  .nav-brand { font-weight: 700; font-size: 15px; letter-spacing: -0.02em; color: var(--text); }
   .nav-wordmark { font-weight: 700; font-size: 16px; letter-spacing: -0.02em; display: none; }
   .nav-label { font-size: 10px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); padding: 0 1.5rem 0.6rem; }
   nav a { display: flex; align-items: center; gap: 10px; padding: 0.55rem 1.5rem; color: var(--text-muted); text-decoration: none; font-size: 13.5px; font-weight: 500; transition: color 0.15s, background 0.15s; position: relative; }
@@ -37,13 +38,17 @@
   nav a.active { color: var(--text); background: var(--surface); }
   nav a.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 2px; height: 60%; background: var(--accent-soft); border-radius: 2px; }
   nav a svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.6; }
-  .nav-spacer { margin-top: auto; padding: 1.5rem; border-top: 1px solid var(--border); font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-dim); }
+  .nav-spacer { margin-top: auto; padding: 1.5rem; border-top: 1px solid var(--border); }
+  .nav-social { display: flex; flex-direction: column; gap: 0.5rem; }
+  .nav-social-link { display: flex; align-items: center; gap: 8px; color: var(--text-dim); text-decoration: none; font-size: 11px; font-family: 'JetBrains Mono', monospace; transition: color 0.15s; }
+  .nav-social-link:hover { color: var(--text-muted); }
+  .nav-social-icon { width: 13px; height: 13px; opacity: 0.5; filter: brightness(0) invert(1); flex-shrink: 0; }
 
   main { flex: 1; padding: 3rem 3.5rem; max-width: 1100px; overflow-x: hidden; }
-  .page-header { margin-bottom: 4rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .page-header { margin-bottom: 4rem; padding-bottom: 2rem; }
   .page-header h1 { font-size: 13px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-soft); margin-bottom: 0.5rem; }
   .page-header p { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
-  .page-header span { color: var(--text-muted); }
+  .page-header span { color: var(--text-muted); font-size: 16px; display: block; margin-top: 0.5rem; }
 
   section { margin-bottom: 5rem; scroll-margin-top: 2rem; }
   section h2 { font-size: 11px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; }
@@ -52,12 +57,14 @@
   .subsection { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--accent-soft); margin: 2rem 0 0.75rem; opacity: 0.7; letter-spacing: 0.06em; }
 
   .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
-  .color-card { cursor: pointer; border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; transition: border-color 0.15s, transform 0.15s; }
+  .color-card { cursor: pointer; border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; transition: border-color 0.15s, transform 0.15s; position: relative; }
   .color-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
   .color-swatch { height: 100px; width: 100%; }
   .color-info { padding: 0.75rem 1rem; background: var(--surface); }
   .color-name { font-size: 11.5px; font-weight: 600; margin-bottom: 2px; }
   .color-hex { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); }
+  .color-copy-hint { position: absolute; inset: 0 0 auto 0; height: 100px; background: rgba(74,43,212,0.12); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; color: var(--accent-soft); }
+  .color-card:hover .color-copy-hint { opacity: 1; }
 
   .asset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
   .asset-grid.logos { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
@@ -66,22 +73,23 @@
   .asset-card.dark-bg { background: #1e1b30; }
   .asset-card.dark-bg:hover { background: #26224a; }
   .asset-card img { max-width: 100%; max-height: 60px; object-fit: contain; display: block; }
-  .copy-hint { position: absolute; inset: 0; background: rgba(74,43,212,0.08); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--accent-soft); letter-spacing: 0.08em; }
+  .copy-hint { position: absolute; inset: 0; background: rgba(74,43,212,0.08); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; color: var(--accent-soft); }
   .asset-card:hover .copy-hint { opacity: 1; }
 
   .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; }
   .icon-card { cursor: pointer; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem 0.5rem 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; transition: border-color 0.15s, background 0.15s, transform 0.15s; position: relative; overflow: hidden; }
   .icon-card:hover { border-color: var(--border-hover); background: var(--surface-hover); transform: translateY(-2px); }
-  .icon-card img { width: 32px; height: 32px; object-fit: contain; display: block; }
+  .icon-card img { width: 32px; height: 32px; object-fit: contain; display: block; filter: brightness(0) invert(1); }
 
   .partner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
-  .partner-card { cursor: pointer; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem 1.25rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; transition: border-color 0.15s, background 0.15s, transform 0.15s; position: relative; overflow: hidden; min-height: 100px; }
+  .partner-card { cursor: pointer; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.25rem 1rem; display: flex; flex-direction: column; align-items: center; transition: border-color 0.15s, background 0.15s, transform 0.15s; position: relative; overflow: hidden; min-height: 140px; }
   .partner-card:hover { border-color: var(--border-hover); background: var(--surface-hover); transform: translateY(-2px); }
   .partner-card.dark-bg { background: #1e1b30; }
   .partner-card.dark-bg:hover { background: #26224a; }
-  .partner-card img { max-width: 100%; max-height: 40px; object-fit: contain; display: block; }
+  .partner-img-wrap { flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; }
+  .partner-card img { max-width: 100%; max-height: 48px; object-fit: contain; display: block; }
 
-  .copy-hint-sm { position: absolute; inset: 0; background: rgba(74,43,212,0.08); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--accent-soft); letter-spacing: 0.08em; }
+  .copy-hint-sm { position: absolute; inset: 0; background: rgba(74,43,212,0.08); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s; color: var(--accent-soft); }
   .icon-card:hover .copy-hint-sm, .partner-card:hover .copy-hint-sm { opacity: 1; }
 
   .asset-label { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); text-align: center; word-break: break-all; line-height: 1.4; }
@@ -217,8 +225,8 @@ function copyUrl(path) {
 }
 
 const NAV_ITEMS = [
-  { id: 'colors',        label: 'Colores',      icon: '<circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/>' },
-  { id: 'logos',         label: 'Logos',        icon: '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M8 6v12"/>' },
+  { id: 'colors',        label: 'Colores',      icon: '<path d="M12 22C6.49 22 2 17.51 2 12S6.49 2 12 2s10 4.04 10 9c0 3.31-2.69 6-6 6h-1.77c-.28 0-.5.22-.5.5 0 .12.05.23.13.33.41.47.64 1.06.64 1.67A2.5 2.5 0 0 1 12 22zm0-18c-4.41 0-8 3.59-8 8s3.59 8 8 8c.28 0 .5-.22.5-.5a.54.54 0 0 0-.14-.35c-.41-.46-.63-1.05-.63-1.65a2.5 2.5 0 0 1 2.5-2.5H16c2.21 0 4-1.79 4-4 0-3.86-3.59-7-8-7z"/><circle cx="6.5" cy="11.5" r="1"/><circle cx="9.5" cy="7.5" r="1"/><circle cx="14.5" cy="7.5" r="1"/><circle cx="17.5" cy="11.5" r="1"/>' },
+  { id: 'logos',         label: 'Logos',        icon: '<circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/>' },
   { id: 'icons',         label: 'Icons',        icon: '<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>' },
   { id: 'illustrations', label: 'Illustrations',icon: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="m3 16 5-5 4 4 3-3 6 6"/>' },
   { id: 'partners',      label: 'Partners',     icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
@@ -229,9 +237,10 @@ function buildNav() {
   const nav = document.getElementById('sidebar');
   nav.innerHTML = `
     <div class="nav-logo">
-      <img src="${BASE_URL}/branding/logo/mrp-text-white.png" alt="MrPrinteto"
+      <img src="${BASE_URL}/branding/logo/mrp-icon.png" alt="MrPrinteto"
            onerror="this.style.display='none'; document.querySelector('.nav-wordmark').style.display='block'">
       <span class="nav-wordmark">MrPrinteto</span>
+      <span class="nav-brand">Brand</span>
     </div>
     <span class="nav-label">Brand Kit</span>
     ${NAV_ITEMS.map(i => `
@@ -239,7 +248,26 @@ function buildNav() {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">${i.icon}</svg>
         ${i.label}
       </a>`).join('')}
-    <div class="nav-spacer">assets.mrprinteto.com</div>`;
+    <div class="nav-spacer">
+      <div class="nav-social">
+        <a href="https://instagram.com/mrprinteto" target="_blank" class="nav-social-link">
+          <img src="${BASE_URL}/branding/icons/social/instagram.svg" alt="Instagram" class="nav-social-icon">
+          @mrprinteto
+        </a>
+        <a href="https://tiktok.com/@mrprinteto" target="_blank" class="nav-social-link">
+          <img src="${BASE_URL}/branding/icons/social/tiktok.svg" alt="TikTok" class="nav-social-icon">
+          @mrprinteto
+        </a>
+        <a href="https://youtube.com/@mrprinteto" target="_blank" class="nav-social-link">
+          <img src="${BASE_URL}/branding/icons/social/youtube.svg" alt="YouTube" class="nav-social-icon">
+          @mrprinteto
+        </a>
+        <a href="https://threads.net/@mrprinteto" target="_blank" class="nav-social-link">
+          <img src="${BASE_URL}/branding/icons/social/threads.svg" alt="Threads" class="nav-social-icon">
+          @mrprinteto
+        </a>
+      </div>
+    </div>`;
 }
 
 function card(html, cls, onclick) {
@@ -252,12 +280,14 @@ function assetImg(path, alt, style = '') {
 
 function buildMain() {
   let sectionIdx = 1;
+  const COPY_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
 
   // Colors
   const colorCards = BRAND.colors.map(c => {
     const border = c.hex === '#f0eff3' ? 'border-bottom:1px solid rgba(0,0,0,0.1)' : '';
     return `<div class="color-card" onclick="copyText('${c.hex}', 'Color copiado')">
       <div class="color-swatch" style="background:${c.hex};${border}"></div>
+      <div class="color-copy-hint">${COPY_ICON}</div>
       <div class="color-info">
         <div class="color-name">${c.name}</div>
         <div class="color-hex">${c.hex}</div>
@@ -270,7 +300,7 @@ function buildMain() {
     <div class="asset-card${a.dark ? ' dark-bg' : ''}" onclick="copyUrl('${a.path}')">
       ${assetImg(a.path, a.label)}
       <div class="asset-label">${a.label}</div>
-      <div class="copy-hint">↗ copiar URL</div>
+      <div class="copy-hint">${COPY_ICON}</div>
     </div>`).join('');
 
   // Icons — social + tech
@@ -279,7 +309,7 @@ function buildMain() {
       <div class="icon-card" onclick="copyUrl('${a.path}')">
         ${assetImg(a.path, a.label)}
         <div class="asset-label">${a.label}</div>
-        <div class="copy-hint-sm">copiar</div>
+        <div class="copy-hint-sm">${COPY_ICON}</div>
       </div>`).join('');
   }
 
@@ -288,15 +318,15 @@ function buildMain() {
     <div class="asset-card${a.dark ? ' dark-bg' : ''}" onclick="copyUrl('${a.path}')">
       ${assetImg(a.path, a.label)}
       <div class="asset-label">${a.label}</div>
-      <div class="copy-hint">↗ copiar URL</div>
+      <div class="copy-hint">${COPY_ICON}</div>
     </div>`).join('');
 
   // Partners
   const partnerCards = BRAND.partners.map(a => `
     <div class="partner-card${a.dark ? ' dark-bg' : ''}" onclick="copyUrl('${a.path}')">
-      ${assetImg(a.path, a.label)}
+      <div class="partner-img-wrap">${assetImg(a.path, a.label)}</div>
       <div class="asset-label">${a.label}</div>
-      <div class="copy-hint-sm">copiar</div>
+      <div class="copy-hint-sm">${COPY_ICON}</div>
     </div>`).join('');
 
   // Guidelines
@@ -309,7 +339,7 @@ function buildMain() {
   document.getElementById('main').innerHTML = `
     <header class="page-header">
       <h1>mrprinteto / brand-kit</h1>
-      <p>Recursos de marca.<br><span>Haz clic para copiar.</span></p>
+      <p>Recursos de marca.<br><span>Haz click para copiar enlace</span></p>
     </header>
 
     <section id="colors">
