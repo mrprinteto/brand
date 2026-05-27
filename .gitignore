@@ -1,0 +1,73 @@
+# ── macOS ──────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+Icon
+
+# ── Windows ────────────────────────────────────
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ── Linux ──────────────────────────────────────
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ── Editors & IDEs ─────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+*.swo
+*~
+
+# ── Logs & temp files ──────────────────────────
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+
+# ── Node (in case tooling is added) ────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm
+.yarn/cache
+.pnp.*
+
+# ── Build / dist ───────────────────────────────
+dist/
+build/
+out/
+.cache/
+
+# ── Environment & secrets ──────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# ── Thumbnails & generated assets ─────────────
+*.thumb
+*-thumb.*
