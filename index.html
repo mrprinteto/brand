@@ -123,6 +123,13 @@
   .asset-label { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); text-align: center; word-break: break-all; line-height: 1.4; }
   .icon-card .asset-label, .partner-card .asset-label { font-size: 10px; }
 
+  .signature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .signature-card { cursor: pointer; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; transition: border-color 0.15s, transform 0.15s; position: relative; overflow: hidden; }
+  .signature-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+  .signature-preview { pointer-events: none; }
+  .signature-card .copy-hint { opacity: 0; }
+  .signature-card:hover .copy-hint { opacity: 1; }
+
   .guidelines-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .guideline-card { background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; }
   .guideline-card.do { border-left: 2px solid #3dbd78; }
@@ -266,6 +273,21 @@ const BRAND = {
     { type: 'do',   title: '✓ Espacio libre',text: 'Respetar un área de respeto equivalente a la altura de la "M" del logo en todos sus lados.' },
     { type: 'dont', title: '✗ Fondos',       text: 'No colocar el logo positivo sobre fotografías sin contraste suficiente o fondos pautados.' },
   ],
+
+  email_signatures: [
+    {
+      name: 'Firma estándar',
+      html: `<table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; color: #0f1114; max-width: 520px;">
+  <tr><td colspan="3" style="padding-bottom: 2px;"><strong style="font-size:16px;font-weight:700;color:#0f1114;letter-spacing:-0.02em;">Alberto G.</strong></td></tr>
+  <tr><td colspan="3" style="padding-bottom: 20px;"><span style="font-size:12px;color:#555555;font-family:'Courier New',Courier,monospace;">Content Creator &amp; Maker</span></td></tr>
+  <tr>
+    <td style="padding-right:20px;border-right:1px solid #cccccc;vertical-align:middle;"><img src="https://assets.mrprinteto.com/branding/logo/mrp-logo.png" alt="MrPrinteto" width="120" height="auto" style="display:block;border:0;height:auto;"></td>
+    <td style="padding:0 24px;border-right:1px solid #cccccc;vertical-align:middle;white-space:nowrap;"><span style="font-size:13px;font-weight:700;color:#0f1114;display:block;line-height:1.8;">3D Printing</span><span style="font-size:13px;font-weight:700;color:#0f1114;display:block;line-height:1.8;">Custom Designs</span></td>
+    <td style="padding-left:24px;vertical-align:middle;"><a href="mailto:info@mrprinteto.com" style="font-size:13px;color:#0f1114;text-decoration:none;display:block;margin-bottom:10px;">info@mrprinteto.com</a><table cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right:14px;"><a href="https://instagram.com/mrprinteto" target="_blank"><img src="https://assets.mrprinteto.com/branding/icons/social/instagram.svg" alt="Instagram" width="18" height="18" style="display:block;filter:brightness(0);"></a></td><td style="padding-right:14px;"><a href="https://tiktok.com/@mrprinteto" target="_blank"><img src="https://assets.mrprinteto.com/branding/icons/social/tiktok.svg" alt="TikTok" width="18" height="18" style="display:block;filter:brightness(0);"></a></td><td style="padding-right:14px;"><a href="https://youtube.com/@mrprinteto" target="_blank"><img src="https://assets.mrprinteto.com/branding/icons/social/youtube.svg" alt="YouTube" width="18" height="18" style="display:block;filter:brightness(0);"></a></td><td><a href="https://threads.net/@mrprinteto" target="_blank"><img src="https://assets.mrprinteto.com/branding/icons/social/threads.svg" alt="Threads" width="18" height="18" style="display:block;filter:brightness(0);"></a></td></tr></table></td>
+  </tr>
+</table>`
+    }
+  ]
 };
 
 // ─────────────────────────────────────────────
@@ -290,12 +312,20 @@ function copyUrl(path) {
   navigator.clipboard.writeText(BASE_URL + path).then(() => showToast('URL copiada'));
 }
 
+function copySignatureHtml(idx) {
+  const html = BRAND.email_signatures[idx].html;
+  const blob = new Blob([html], { type: 'text/html' });
+  navigator.clipboard.write([new ClipboardItem({ 'text/html': blob })])
+    .then(() => showToast('Firma copiada — pega en Gmail'));
+}
+
 const NAV_ITEMS = [
   { id: 'colors',        label: 'Colores',      icon: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>' },
   { id: 'logos',         label: 'Logos',        icon: '<circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/>' },
   { id: 'icons',         label: 'Iconos',          icon: '<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>' },
   { id: 'illustrations', label: 'Ilustraciones',   icon: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="m3 16 5-5 4 4 3-3 6 6"/>' },
   { id: 'partners',      label: 'Colaboradores',   icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+  { id: 'email_signatures', label: 'Firmas de correo', icon: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>' },
   { id: 'guidelines',    label: 'Guía de uso',     icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>' },
 ];
 
@@ -396,11 +426,23 @@ function buildMain() {
     </div>`).join('');
 
   // Partners
-  const partnerCards = BRAND.partners.map(a => `
-    <div class="partner-card${a.dark ? ' dark-bg' : ''}" onclick="copyUrl('${a.path}')">
-      <div class="partner-img-wrap">${assetImg(a.path, a.label)}</div>
-      <div class="asset-label">${a.label}</div>
-      <div class="copy-hint-sm">${COPY_ICON}</div>
+  function partnerCards(list) {
+    return list.map(a => `
+      <div class="partner-card${a.dark ? ' dark-bg' : ''}" onclick="copyUrl('${a.path}')">
+        <div class="partner-img-wrap">${assetImg(a.path, a.label)}</div>
+        <div class="asset-label">${a.label}</div>
+        <div class="copy-hint-sm">${COPY_ICON}</div>
+      </div>`).join('');
+  }
+  const partnersLight = BRAND.partners.filter(a => !a.dark);
+  const partnersDark  = BRAND.partners.filter(a =>  a.dark);
+
+  // Email signatures
+  const signatureCards = BRAND.email_signatures.map((s, i) => `
+    <div class="signature-card" onclick="copySignatureHtml(${i})">
+      <div class="signature-preview">${s.html}</div>
+      <div class="asset-label">${s.name}</div>
+      <div class="copy-hint">${COPY_ICON}</div>
     </div>`).join('');
 
   // Guidelines
@@ -455,7 +497,16 @@ function buildMain() {
     <section id="partners">
       <h2>0${sectionIdx++}</h2>
       <h3>Colaboradores</h3>
-      <div class="partner-grid">${partnerCards}</div>
+      <p class="subsection">Claro</p>
+      <div class="partner-grid">${partnerCards(partnersLight)}</div>
+      <p class="subsection">Oscuro</p>
+      <div class="partner-grid">${partnerCards(partnersDark)}</div>
+    </section>
+
+    <section id="email_signatures">
+      <h2>0${sectionIdx++}</h2>
+      <h3>Firmas de correo</h3>
+      <div class="signature-grid">${signatureCards}</div>
     </section>
 
     <section id="guidelines">
@@ -475,7 +526,7 @@ function initScrollSpy() {
         });
       }
     });
-  }, { threshold: 0.3 });
+  }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
   document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
 }
 
